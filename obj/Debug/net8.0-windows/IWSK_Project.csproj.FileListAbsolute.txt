@@ -1,0 +1,14 @@
+C:\Projekty\IWSK_Project\bin\Debug\net8.0-windows\IWSK_Project.exe
+C:\Projekty\IWSK_Project\bin\Debug\net8.0-windows\IWSK_Project.deps.json
+C:\Projekty\IWSK_Project\bin\Debug\net8.0-windows\IWSK_Project.runtimeconfig.json
+C:\Projekty\IWSK_Project\bin\Debug\net8.0-windows\IWSK_Project.dll
+C:\Projekty\IWSK_Project\bin\Debug\net8.0-windows\IWSK_Project.pdb
+C:\Projekty\IWSK_Project\obj\Debug\net8.0-windows\IWSK_Project.GeneratedMSBuildEditorConfig.editorconfig
+C:\Projekty\IWSK_Project\obj\Debug\net8.0-windows\IWSK_Project.AssemblyInfoInputs.cache
+C:\Projekty\IWSK_Project\obj\Debug\net8.0-windows\IWSK_Project.AssemblyInfo.cs
+C:\Projekty\IWSK_Project\obj\Debug\net8.0-windows\IWSK_Project.csproj.CoreCompileInputs.cache
+C:\Projekty\IWSK_Project\obj\Debug\net8.0-windows\IWSK_Project.dll
+C:\Projekty\IWSK_Project\obj\Debug\net8.0-windows\refint\IWSK_Project.dll
+C:\Projekty\IWSK_Project\obj\Debug\net8.0-windows\IWSK_Project.pdb
+C:\Projekty\IWSK_Project\obj\Debug\net8.0-windows\IWSK_Project.genruntimeconfig.cache
+C:\Projekty\IWSK_Project\obj\Debug\net8.0-windows\ref\IWSK_Project.dll
