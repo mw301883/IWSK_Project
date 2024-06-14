@@ -4,12 +4,14 @@ namespace IWSK_Project
     using System.Diagnostics;
     using System.IO.Ports;
     using System.Windows.Forms;
+    using System.Threading;
 
     public partial class Form1 : Form
     {
         private SerialPort serialPort;
         private string dataToSend = "";
         private string terminator = "";
+        private bool isConstantReadEnable = true;
 
         public Form1()
         {
@@ -43,7 +45,7 @@ namespace IWSK_Project
         private void UpdateBaudRateList()
         {
             comboBox4.Items.Clear();
-            int[] baudRates = { 300, 1200, 2400, 4800, 9600, 19200, 38400, 57600, 115200 };
+            int[] baudRates = { 150, 300, 600, 1200, 2400, 4800, 9600, 19200, 38400, 57600, 115200, 230400, 460800, 921600 };
             foreach (int rate in baudRates)
             {
                 comboBox4.Items.Add(rate);
@@ -106,6 +108,7 @@ namespace IWSK_Project
                 string selectedFlowControl = comboBox3.SelectedItem.ToString();
 
                 serialPort = new SerialPort(selectedPort, selectedBaudRate);
+                serialPort.DataReceived += SerialPort_DataReceived;
 
                 // Ustawienie formatu znaku
                 switch (selectedFormat[0])
@@ -157,6 +160,14 @@ namespace IWSK_Project
                         serialPort.Handshake = Handshake.XOnXOff;
                         break;
                 }
+                button1.Enabled = false;
+                button1.ForeColor = SystemColors.GrayText;
+                button1.FlatStyle = FlatStyle.Flat;
+                button1.TabStop = false;
+                button2.Enabled = true;
+                button2.ForeColor = SystemColors.ControlText;
+                button2.FlatStyle = FlatStyle.Standard;
+                button2.TabStop = true;
 
                 serialPort.Open();
                 LogToConsole("Po≥πczono z portem: " + selectedPort);
@@ -173,6 +184,14 @@ namespace IWSK_Project
             {
                 if (serialPort != null && serialPort.IsOpen)
                 {
+                    button2.Enabled = false;
+                    button2.ForeColor = SystemColors.GrayText;
+                    button2.FlatStyle = FlatStyle.Flat;
+                    button2.TabStop = false;
+                    button1.Enabled = true;
+                    button1.ForeColor = SystemColors.ControlText;
+                    button1.FlatStyle = FlatStyle.Standard;
+                    button1.TabStop = true;
                     serialPort.Close();
                     LogToConsole("Roz≥πczono z portem COM");
                 }
@@ -215,7 +234,7 @@ namespace IWSK_Project
 
         private string GetSubstringUntilTerminator(string message)
         {
-            if(terminator.Length == 0)
+            if (terminator.Length == 0)
             {
                 return message;
             }
@@ -236,38 +255,39 @@ namespace IWSK_Project
             {
                 if (serialPort != null && serialPort.IsOpen)
                 {
-                    // Inicjujemy Stopwatch
+                    isConstantReadEnable = false;
                     Stopwatch stopwatch = Stopwatch.StartNew();
 
                     serialPort.Write("ping");
+                    Thread.Sleep(1000);
                     LogToConsole("Wys≥ano: ping");
-
-                    string response = serialPort.ReadLine();
-                    LogToConsole("Odebrano: " + response);
-
-                    // Zatrzymujemy Stopwatch po otrzymaniu odpowiedzi
+                    string response = "";
+                    while (true)
+                    {
+                        response = serialPort.ReadExisting();
+                        if (response == "pong")
+                        {
+                            break;
+                        }
+                        else if (stopwatch.ElapsedMilliseconds > 5000)
+                        {
+                            stopwatch.Stop();
+                            throw new TimeoutException();
+                        }
+                    }
                     stopwatch.Stop();
-
-                    if (response.Trim().ToLower() == "pong")
-                    {
-                        MessageBox.Show("Odebrano: pong");
-
-                        // Wypisz czas wykonania
-                        LogToConsole("Czas wykonania: " + stopwatch.ElapsedMilliseconds + " ms");
-                    }
-                    else
-                    {
-                        MessageBox.Show("Nieoczekiwana odpowiedü: " + response);
-                    }
+                    LogToConsole("Odebrano: " + response);
+                    LogToConsole("Czas wykonania: " + (stopwatch.ElapsedMilliseconds - 1000) + " ms");
                 }
                 else
                 {
                     LogToConsole("Port COM nie jest otwarty.");
                 }
+                isConstantReadEnable = true;
             }
             catch (TimeoutException)
             {
-                LogToConsole("Timeout podczas oczekiwania na odpowiedü.");
+                LogToConsole("Nie otrzymano odpowiedzi 'pong' w ciπgu 5 sekund.");
             }
             catch (Exception ex)
             {
@@ -307,21 +327,36 @@ namespace IWSK_Project
 
         private void SerialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
-            try
+            if (isConstantReadEnable)
             {
-                string data = serialPort.ReadLine();
-                LogToConsole("Odebrano: " + data);
-
-                if (data.Trim().ToLower() == "ping")
+                try
                 {
-                    serialPort.Write("pong");
-                    LogToConsole("Wys≥ano: pong");
+                    if (serialPort != null && serialPort.IsOpen)
+                    {
+                        string data = GetSubstringUntilTerminator(serialPort.ReadExisting());
+                        LogToConsole("Odebrano: " + data);
+
+                        if (data.Trim().ToLower() == "ping")
+                        {
+                            serialPort.Write("pong");
+                            LogToConsole("Wys≥ano: pong");
+                        }
+                    }
+                    else
+                    {
+                        LogToConsole("Port COM nie jest otwarty.");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    LogToConsole("B≥πd podczas odbierania danych: " + ex.Message);
                 }
             }
-            catch (Exception ex)
-            {
-                LogToConsole("B≥πd podczas odbierania danych: " + ex.Message);
-            }
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

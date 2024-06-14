@@ -62,9 +62,10 @@
             label2.AutoSize = true;
             label2.Location = new Point(5, 40);
             label2.Name = "label2";
-            label2.Size = new Size(58, 15);
+            label2.Size = new Size(151, 15);
             label2.TabIndex = 1;
-            label2.Text = "Szybkość:";
+            label2.Text = "Szybkość transmisji [bit/s]]:";
+            label2.Click += label2_Click;
             // 
             // label3
             // 
@@ -87,40 +88,40 @@
             // comboBox1
             // 
             comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(139, 14);
+            comboBox1.Location = new Point(160, 14);
             comboBox1.Margin = new Padding(3, 2, 3, 2);
             comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(175, 23);
+            comboBox1.Size = new Size(154, 23);
             comboBox1.TabIndex = 4;
             comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
             // 
             // comboBox2
             // 
             comboBox2.FormattingEnabled = true;
-            comboBox2.Location = new Point(139, 65);
+            comboBox2.Location = new Point(160, 65);
             comboBox2.Margin = new Padding(3, 2, 3, 2);
             comboBox2.Name = "comboBox2";
-            comboBox2.Size = new Size(175, 23);
+            comboBox2.Size = new Size(154, 23);
             comboBox2.TabIndex = 5;
             comboBox2.SelectedIndexChanged += comboBox2_SelectedIndexChanged;
             // 
             // comboBox3
             // 
             comboBox3.FormattingEnabled = true;
-            comboBox3.Location = new Point(139, 91);
+            comboBox3.Location = new Point(160, 91);
             comboBox3.Margin = new Padding(3, 2, 3, 2);
             comboBox3.Name = "comboBox3";
-            comboBox3.Size = new Size(175, 23);
+            comboBox3.Size = new Size(154, 23);
             comboBox3.TabIndex = 6;
             comboBox3.SelectedIndexChanged += comboBox3_SelectedIndexChanged;
             // 
             // comboBox4
             // 
             comboBox4.FormattingEnabled = true;
-            comboBox4.Location = new Point(139, 40);
+            comboBox4.Location = new Point(160, 40);
             comboBox4.Margin = new Padding(3, 2, 3, 2);
             comboBox4.Name = "comboBox4";
-            comboBox4.Size = new Size(175, 23);
+            comboBox4.Size = new Size(154, 23);
             comboBox4.TabIndex = 7;
             // 
             // button1
@@ -137,7 +138,7 @@
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(5, 118);
+            label5.Location = new Point(5, 126);
             label5.Name = "label5";
             label5.Size = new Size(67, 15);
             label5.TabIndex = 9;
@@ -145,17 +146,17 @@
             // 
             // textBox1
             // 
-            textBox1.Location = new Point(139, 118);
+            textBox1.Location = new Point(160, 118);
             textBox1.Margin = new Padding(3, 2, 3, 2);
             textBox1.Name = "textBox1";
-            textBox1.Size = new Size(175, 23);
+            textBox1.Size = new Size(154, 23);
             textBox1.TabIndex = 10;
             textBox1.TextChanged += textBox1_TextChanged;
             // 
             // label6
             // 
             label6.AutoSize = true;
-            label6.Location = new Point(8, 142);
+            label6.Location = new Point(5, 150);
             label6.Name = "label6";
             label6.Size = new Size(73, 15);
             label6.TabIndex = 11;
@@ -163,20 +164,24 @@
             // 
             // textBox2
             // 
-            textBox2.Location = new Point(139, 142);
+            textBox2.Location = new Point(160, 142);
             textBox2.Margin = new Padding(3, 2, 3, 2);
             textBox2.Name = "textBox2";
-            textBox2.Size = new Size(175, 23);
+            textBox2.Size = new Size(154, 23);
             textBox2.TabIndex = 12;
             textBox2.TextChanged += textBox2_TextChanged;
             // 
             // button2
             // 
+            button2.Enabled = false;
+            button2.FlatStyle = FlatStyle.Flat;
+            button2.ForeColor = SystemColors.GrayText;
             button2.Location = new Point(120, 212);
             button2.Margin = new Padding(3, 2, 3, 2);
             button2.Name = "button2";
             button2.Size = new Size(99, 34);
             button2.TabIndex = 13;
+            button2.TabStop = false;
             button2.Text = "Rozłącz";
             button2.UseVisualStyleBackColor = true;
             button2.Click += button2_Click;
@@ -246,6 +251,9 @@
             Controls.Add(label2);
             Controls.Add(label1);
             Margin = new Padding(3, 2, 3, 2);
+            MaximizeBox = false;
+            MaximumSize = new Size(716, 302);
+            MinimumSize = new Size(716, 302);
             Name = "Form1";
             Text = "IWSK Projekt Sekcja 4 KTW";
             Load += Form1_Load;

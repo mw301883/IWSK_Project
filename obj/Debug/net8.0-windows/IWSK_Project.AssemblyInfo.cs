@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("IWSK_Project")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7c36c1f73c1925e64f98fd5a449620ef2f1a7b3f")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+740d7edc9b1690f37d503ad1f95544d065a33e80")]
 [assembly: System.Reflection.AssemblyProductAttribute("IWSK_Project")]
 [assembly: System.Reflection.AssemblyTitleAttribute("IWSK_Project")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
