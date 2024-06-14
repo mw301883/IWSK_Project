@@ -14,6 +14,6 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = IWSK_Project
-build_property.ProjectDir = C:\Projekty\IWSK_Project\
+build_property.ProjectDir = C:\Users\Michał\source\repos\IWSK_Project\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 

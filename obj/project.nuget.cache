@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "osh1ASvRnoZAvP53PIMngrU4A7L5vGAQqfGWUSy5eRX+SrKNxJFyZYCk2vkkpZlC4z+MxW4aTVX1yi+AeVAZrg==",
+  "dgSpecHash": "rbzMNYah2c8=",
   "success": true,
-  "projectFilePath": "C:\\Projekty\\IWSK_Project\\IWSK_Project.csproj",
+  "projectFilePath": "C:\\Users\\Michał\\source\\repos\\IWSK_Project\\IWSK_Project.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Michał\\.nuget\\packages\\runtime.linux-arm.runtime.native.system.io.ports\\8.0.0\\runtime.linux-arm.runtime.native.system.io.ports.8.0.0.nupkg.sha512",
     "C:\\Users\\Michał\\.nuget\\packages\\runtime.linux-arm64.runtime.native.system.io.ports\\8.0.0\\runtime.linux-arm64.runtime.native.system.io.ports.8.0.0.nupkg.sha512",

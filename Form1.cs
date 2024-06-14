@@ -1,11 +1,16 @@
 namespace IWSK_Project
 {
     using System;
+    using System.Diagnostics;
     using System.IO.Ports;
     using System.Windows.Forms;
+
     public partial class Form1 : Form
     {
         private SerialPort serialPort;
+        private string dataToSend = "";
+        private string terminator = "";
+
         public Form1()
         {
             InitializeComponent();
@@ -73,11 +78,7 @@ namespace IWSK_Project
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //if (comboBox1.SelectedItem != null)
-            //{
-            //    string selectedPort = comboBox1.SelectedItem.ToString();
-            //    MessageBox.Show("Wybrano port: " + selectedPort);
-            //}
+
         }
 
         private void comboBox4_SelectedIndexChanged(object sender, EventArgs e)
@@ -158,11 +159,11 @@ namespace IWSK_Project
                 }
 
                 serialPort.Open();
-                MessageBox.Show("Po≥πczono z portem: " + selectedPort);
+                LogToConsole("Po≥πczono z portem: " + selectedPort);
             }
             catch (Exception ex)
             {
-                MessageBox.Show("B≥πd: " + ex.Message);
+                LogToConsole("B≥πd: " + ex.Message);
             }
         }
 
@@ -173,22 +174,154 @@ namespace IWSK_Project
                 if (serialPort != null && serialPort.IsOpen)
                 {
                     serialPort.Close();
-                    MessageBox.Show("Roz≥πczono z portem COM");
+                    LogToConsole("Roz≥πczono z portem COM");
                 }
                 else
                 {
-                    MessageBox.Show("Port COM nie jest otwarty.");
+                    LogToConsole("Port COM nie jest otwarty.");
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("B≥πd przy roz≥πczaniu z portem COM: " + ex.Message);
+                LogToConsole("B≥πd przy roz≥πczaniu z portem COM: " + ex.Message);
             }
         }
 
         private void button4_Click(object sender, EventArgs e)
         {
+            try
+            {
+                if (serialPort != null && serialPort.IsOpen)
+                {
+                    string message = textBox2.Text;
+                    if (message.Length == 0)
+                    {
+                        message = " ";
+                    }
+                    message = GetSubstringUntilTerminator(message);
+                    serialPort.Write(message);
+                    LogToConsole("Wys≥ano dane: " + message);
+                }
+                else
+                {
+                    LogToConsole("Port COM nie jest otwarty.");
+                }
+            }
+            catch (Exception ex)
+            {
+                LogToConsole("B≥πd przy wysy≥aniu danych: " + ex.Message);
+            }
+        }
 
+        private string GetSubstringUntilTerminator(string message)
+        {
+            if(terminator.Length == 0)
+            {
+                return message;
+            }
+            int index = message.IndexOf(terminator);
+            if (index != -1)
+            {
+                return message.Substring(0, index);
+            }
+            else
+            {
+                return message;
+            }
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (serialPort != null && serialPort.IsOpen)
+                {
+                    // Inicjujemy Stopwatch
+                    Stopwatch stopwatch = Stopwatch.StartNew();
+
+                    serialPort.Write("ping");
+                    LogToConsole("Wys≥ano: ping");
+
+                    string response = serialPort.ReadLine();
+                    LogToConsole("Odebrano: " + response);
+
+                    // Zatrzymujemy Stopwatch po otrzymaniu odpowiedzi
+                    stopwatch.Stop();
+
+                    if (response.Trim().ToLower() == "pong")
+                    {
+                        MessageBox.Show("Odebrano: pong");
+
+                        // Wypisz czas wykonania
+                        LogToConsole("Czas wykonania: " + stopwatch.ElapsedMilliseconds + " ms");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Nieoczekiwana odpowiedü: " + response);
+                    }
+                }
+                else
+                {
+                    LogToConsole("Port COM nie jest otwarty.");
+                }
+            }
+            catch (TimeoutException)
+            {
+                LogToConsole("Timeout podczas oczekiwania na odpowiedü.");
+            }
+            catch (Exception ex)
+            {
+                LogToConsole("B≥πd przy wysy≥aniu komendy ping: " + ex.Message);
+            }
+        }
+
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            terminator = textBox1.Text;
+        }
+
+        private void textBox2_TextChanged(object sender, EventArgs e)
+        {
+            dataToSend = textBox2.Text;
+        }
+
+        private void richTextBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void LogToConsole(string message)
+        {
+            if (InvokeRequired)
+            {
+                Invoke(new Action<string>(LogToConsole), new object[] { message });
+            }
+            else
+            {
+                string logMessage = $"{DateTime.Now}: {message}";
+                richTextBox1.AppendText(logMessage + Environment.NewLine);
+                richTextBox1.ScrollToCaret();
+            }
+        }
+
+        private void SerialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
+        {
+            try
+            {
+                string data = serialPort.ReadLine();
+                LogToConsole("Odebrano: " + data);
+
+                if (data.Trim().ToLower() == "ping")
+                {
+                    serialPort.Write("pong");
+                    LogToConsole("Wys≥ano: pong");
+                }
+            }
+            catch (Exception ex)
+            {
+                LogToConsole("B≥πd podczas odbierania danych: " + ex.Message);
+            }
         }
     }
 }
